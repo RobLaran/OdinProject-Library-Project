@@ -1,0 +1,331 @@
+@font-face {
+    font-family: "amatic";
+    src: url(assets/fonts/amaticsc-regular-webfont.woff) format("woff"),
+        url(assets/fonts/amaticsc-regular-webfont.woff2) format("woff2");
+}
+
+html {
+    height: 100%;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+
+    font-family: "amatic";
+}
+
+body {
+    height: 100%;
+
+    background-image: url(assets/img/library_bg.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+p, h3 {
+    margin: 0;
+    padding: 0;
+}
+
+/* LAYOUT and POSITIONING */
+
+body > .container {
+    display: grid;
+
+    align-items: center;
+
+    grid-template-rows: 1fr;
+}
+
+
+header {
+    padding: 20px;
+
+    grid-row: 1;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+main {
+    grid-row: 2;
+}
+
+/* HEADER */
+
+
+header > .heading > p {
+    margin-top: 68px;
+
+    font-size: 5rem;
+    font-weight: 700;
+
+    color: #fff;
+}
+
+header > .heading {
+    text-align: center;
+
+    min-width: 40%;
+    height: 210px;
+
+    background-image: url(assets/img/greenboard_bg.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+    box-shadow: 1px 2px 8px #525252ba;
+}
+
+/* Add button */
+.add-btn {
+    position: fixed;
+
+    left: 40px;
+    bottom: 40px;
+}
+
+.button-53,
+#confirm-book {
+  background-color: #836627;
+  border: 0 solid #E5E7EB;
+  box-sizing: border-box;
+  color: #ffffff;
+  display: flex;
+  font-family: "amatic";
+  font-size: 1.4rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1.75rem;
+  padding: .75rem 1.65rem;
+  position: relative;
+  text-align: center;
+  text-decoration: none #000000 solid;
+  text-decoration-thickness: auto;
+  max-width: 460px;
+  position: relative;
+  cursor: pointer;
+  transform: rotate(-2deg);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+}
+
+.button-53:focus,
+#confirm-book:focus {
+  outline: 0;
+}
+
+.button-53:after,
+#confirm-book::after {
+  content: '';
+  position: absolute;
+  border: 1px solid #000000;
+  bottom: 4px;
+  left: 4px;
+  width: calc(100% - 1px);
+  height: calc(100% - 1px);
+}
+
+.button-53:hover:after,
+#confirm-book:hover::after {
+  bottom: 2px;
+  left: 2px;
+}
+
+
+/* DIALOG */
+#add-book {
+    width: 450px;
+    height: 450px;
+
+    position: relative;
+}
+
+#close {
+    width: 50px;
+    height: 50px;
+
+    position: absolute;
+
+
+    right: 0;
+    top: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+#close span {
+    font-size: 1.2rem;
+    font-weight: 700;
+
+    width: 20px;
+    height: 20px;
+
+    padding: 0 3px 5px 3px;
+
+    text-align: center;
+
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#close span:hover {
+    color: #7c7a7a;
+}
+
+#add-book > form {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+
+}
+
+#add-book > form > div {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#add-book > form > div > label {
+    font-size: 2.5rem;
+    font-weight: 700;
+
+}
+
+#add-book > form > div > input:not(input[type="checkbox"]) {
+    flex: 1;
+
+    line-height: 1.4rem;
+    font-size: 1.1rem;
+}
+
+#add-book > form > div.read-status-checkbox {
+    justify-content: center;
+}
+
+#add-book > form > div input[type="checkbox"] {
+    appearance: none;
+
+    width: 30px;
+    height: 30px;
+
+    position: relative;
+
+    vertical-align: -5px;
+
+    border: 1px solid black;
+
+    overflow: hidden;
+}
+
+#add-book > form > div input[type="checkbox"]:before {
+    position: absolute;
+    
+    content: "✔"; 
+    
+    color: rgb(40, 197, 40);
+    
+    font-size: 2.1rem;
+    
+    top: -9px;
+    
+    transform: scale(0);
+    transform-origin: bottom;
+    transition: all 0.2s ease-in;
+}
+
+#add-book > form > div input[type="checkbox"]:checked:before {
+    transform: scale(1);
+}
+
+#add-book > form > div.confirm-book-container {
+    align-items: center;
+    justify-content: center;
+}
+
+/* MAIN GRID */
+
+.grid-container {
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+    padding: 20px;
+}
+
+/* BOOK STYLE */
+
+.book {
+    width: 280px;
+    height: 310px;
+
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+    padding-top: 35px;
+    padding-right: 68px;
+    padding-left: 20px;
+}
+
+.book > .content {
+    width: 100%;
+    height: 100%;
+
+    font-size: 2.2rem;
+    font-weight: 700;
+
+    display: grid;
+
+    text-align: center;
+    align-items: center;
+}
+
+.book > .content h3 {
+    text-decoration: underline;
+}
+
+.book > .content > .actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-around;
+}
+
+.book > .content > .actions button {
+    width: 90px;
+    line-height: 28px;
+
+    font-size: 1rem;
+
+    border-radius: 5px;
+    border: 2px solid #5d5a5a;
+
+    font-family: monospace;
+}
+
+.actions > button.read-toggle[data-read="true"] {
+    background-color: rgb(40, 193, 40);
+}
+
+.actions > button.read-toggle[data-read="false"] {
+    background-color: rgb(242, 66, 84);
+}
+
+.actions > button.remove-book-btn {
+    background-color: rgb(209, 209, 209);
+}
