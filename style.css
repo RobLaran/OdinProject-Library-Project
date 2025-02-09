@@ -86,8 +86,8 @@ header > .heading {
 .add-btn {
     position: fixed;
 
-    left: 40px;
-    bottom: 40px;
+    right: 40px;
+    top: 40px;
 }
 
 .button-53,
