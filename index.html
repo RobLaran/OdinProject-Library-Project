@@ -20,30 +20,30 @@
             </div>
         </main>
 
-        <dialog id="add-book">
+        <dialog id="add-book-dialog">
             <div id="close">
                 <span id="close-btn">✖</span>
             </div>
             <form action="/script.js" method="POST">
                 <div class="title-input">
                     <label for="title">Title: </label>
-                    <input type="text" name="title" id="title" placeholder="Some title">
+                    <input type="text" name="title-name" id="title" placeholder="Some title">
                 </div>
 
                 <div class="author-input">
                     <label for="author">Author: </label>
-                    <input type="text" name="author" id="author" placeholder="Some author">
+                    <input type="text" name="author-name" id="author" placeholder="Some author">
                 </div>
 
                 <div class="pages-input">
                     <label for="pages">Pages: </label>
-                    <input type="number" name="pages" id="pages" placeholder="Number of pages">
+                    <input type="number" name="pages-name" id="pages" placeholder="Number of pages">
                 </div>
 
                  <div class="read-status-checkbox">
                     <label for="read-status">
                         Had read: 
-                        <input type="checkbox" name="readstatus" id="read-status-input">
+                        <input type="checkbox" name="readstatus-name" id="read-status" checked>
                     </label>
                 </div>
 

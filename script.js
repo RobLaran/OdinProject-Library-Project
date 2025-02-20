@@ -1,147 +1,181 @@
-const library = []
+class Library {
+    constructor() {
+        this.bookshelf = []
+    }
 
-let shelf = document.getElementById("bookshelf")
-let dialog = document.getElementById("add-book")
-let addBookBtn = document.getElementById("add-book-btn")
-let confirmBtn = document.getElementById("confirm-book")
-let closeBtn = document.getElementById("close-btn")
+    addBook(book) {
+        if(book instanceof Book) {
+            this.bookshelf.push(book)
+        }
+    }
 
-let gundamBook = new Book("Gundam: The Last Rebellion", "Narudo Uzumimo", 394)
-let narutoBook = new Book("Naruto", "Jakiro", 432, true)
-let gtaBook = new Book("Grand Theft Auto: San Andreas", "CJ Johnson", 321, true)
-let farCryBook = new Book("Far Cry 3", "Jason Bourne", 341, true)
-let acBook = new Book("Assassin's Creed Brotherhood", "Ezio Auditore", 658, false)
+    removeBook(book) {
+        if(book instanceof Book) {
+            const bookIndex = this.bookshelf.indexOf(book)
 
+        this.bookshelf.splice(bookIndex, 1)
+        }
+    }
 
-confirmBtn.addEventListener("click", check)
-
-addBookBtn.addEventListener("click", () => {
-    dialog.showModal()
-})
-
-confirmBtn.addEventListener("click", () => {
-    dialog.close()
-})
-
-closeBtn.addEventListener("click", () => {
-    dialog.close()
-})
-
-function check(event) {
-    event.preventDefault()
-
-    let title = document.getElementById("title").value || undefined
-    document.getElementById("title").value = ""
-    let author = document.getElementById("author").value || undefined
-    document.getElementById("author").value = ""
-    let pages = document.getElementById("pages").value || undefined
-    document.getElementById("pages").value = ""
-    let readStatus = document.getElementById("read-status-input").checked
-    document.getElementById("read-status-input").checked = false
-
-    const rawBook = new Book(title, author, pages, readStatus)
-    const book = buildBook(rawBook)
-
-    addBook(rawBook)
-    showBooks()
-}
-
-
-function Book(title="No title", author="No author", pages=0, read=false) {
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.read = read
-    this.bookCoverNum = Math.floor(Math.random() * 4) + 1
-
-    this.fontColor = this.bookCoverNum == 4 ? "black" : "white"
-}
-
-function addBook(book) {
-    if(book instanceof Book) {
-        library.push(book)
+    getBooks() {
+        return this.bookshelf
     }
 }
 
-function showBooks() {
-    let books = document.querySelectorAll(".book")
-    books.forEach(book => shelf.removeChild(book))
+class Book {
+    constructor(title="No title", author="No author", pages=0, read=false) {
+        this.title = title
+        this.author = author
+        this.pages = pages
+        this.read = read
+        this.bookCover = this.#createBookCover()
+        this.fontColor = this.#setFontColor()
+    }
 
-    for(let index in library) {
-        let book = buildBook(library[index])
+    readBook(read) {
+        if(typeof read === 'boolean') {
+            this.read = read
+        }
+    }
 
-        shelf.appendChild(book)
+    #createBookCover() {
+        const randomNumber = Math.floor(Math.random() * 4) + 1
+         
+        return { img : `book_${randomNumber}.png`, num : randomNumber}
+    }
+
+    #setFontColor() {
+        return this.bookCover['num'] == 4 ? "black" : "white"
     }
 }
 
-function buildBook(rawBook) {
-    if(!(rawBook instanceof Book)) {
-        return
+class UIController {
+    constructor() {
+        this.library = new Library()
+        this.dialog = document.getElementById("add-book-dialog")
+        this.addBookBtn = document.getElementById("add-book-btn")
+        this.confirmBtn = document.getElementById("confirm-book")
+        this.closeBtn = document.getElementById("close-btn")
     }
 
-    let book = document.createElement("div")
-    let content = document.createElement("div")
-    let actions = document.createElement("div")
-    let title = document.createElement("h3")
-    let author = document.createElement("p")
-    let pages = document.createElement("p")
-    let readStatus = document.createElement("button")
-    let removeBook = document.createElement("button")
-    book.classList.add("book")
-    book.style = `background-image: url(assets/img/book_${rawBook.bookCoverNum}.png); 
-                color: ${rawBook.fontColor};`
-                                    
+    displayBooks() {
+        this.books = document.getElementsByClassName('book')
+        this.bookshelfDiv = document.getElementById("bookshelf")
 
-    content.classList.add("content")
-    actions.classList.add("actions")
+        for (let bookElem of this.books) {
+            this.bookshelfDiv.removeChild(bookElem)
+            console.log(bookElem)
+        }
 
-    book.appendChild(content)
-    content.appendChild(title)
-    content.appendChild(author)
-    content.appendChild(pages)
-    content.appendChild(actions)
+        const books = this.library.getBooks()
 
-    readStatus.classList.add("read-toggle")
-    readStatus.setAttribute("id", "read-status")
-    readStatus.setAttribute("type", "button")
+        for(let index in books) {
+            let book = this.buildBook(books[index]) 
+            this.bookshelfDiv.appendChild(book)
+        }
+    }
+    
+    clearDialog() {
+        document.getElementById("title").value = ""
+        document.getElementById("author").value = ""
+        document.getElementById("pages").value = ""
+        document.getElementById("read-status-input").checked = false
+    }
 
-    readStatus.textContent = rawBook.read ? "Read" : "Not read"
-    readStatus.setAttribute("data-read", rawBook.read)
-    readStatus.addEventListener("click", () => {
-        console.log(rawBook)
-        
-        rawBook.read = !rawBook.read
-        showBooks()
-    })
+    getValues() {
+        return { 
+            title : document.getElementById("title").value || undefined,
+            author : document.getElementById("author").value || undefined,
+            pages : document.getElementById("pages").value || undefined,
+            readStatus : document.getElementById("read-status").checked
+        }
+    }
 
-    removeBook.classList.add("remove-book-btn")
-    removeBook.setAttribute("id", "remove-book")
-    removeBook.setAttribute("type", "button")
+    buildBook(rawBook) {
+        let book = document.createElement("div")
+        let content = document.createElement("div")
+        let actions = document.createElement("div")
+        let title = document.createElement("h3")
+        let author = document.createElement("p")
+        let pages = document.createElement("p")
+        let readStatus = document.createElement("button")
+        let removeBook = document.createElement("button")
 
-    removeBook.textContent = "Remove"
-    removeBook.addEventListener("click", () => {
-        console.log("REMOVED", )
+        book.classList.add("book")
+        book.style = `background-image: url(assets/img/${rawBook.bookCover['img']}); 
+                    color: ${rawBook.fontColor};`
+                                        
+    
+        content.classList.add("content")
+        actions.classList.add("actions")
+    
+        book.appendChild(content)
+        content.appendChild(title)
+        content.appendChild(author)
+        content.appendChild(pages)
+        content.appendChild(actions)
+    
+        readStatus.classList.add("read-toggle")
+        readStatus.classList.add("read-status")
+        readStatus.setAttribute("type", "button")
+    
+        readStatus.textContent = rawBook.read ? "Read" : "Not read"
+        readStatus.setAttribute("data-read", rawBook.read)
+        readStatus.addEventListener("click", () => {
+            rawBook.readBook(!rawBook.read)
 
-        let i = library.indexOf(rawBook)
-        library.splice(i, 1)
-        showBooks()
-    })
+            this.displayBooks()
+        })
+    
+        removeBook.classList.add("remove-book-btn")
+        removeBook.classList.add("remove-book")
+        removeBook.setAttribute("type", "button")
 
-    actions.appendChild(readStatus)
-    actions.appendChild(removeBook)
+        removeBook.textContent = "Remove"
+        removeBook.addEventListener("click", () => {
+            console.log("REMOVED")
+            
+            this.library.removeBook(rawBook)
 
-    title.textContent = rawBook.title
-    author.textContent = rawBook.author 
-    pages.textContent = (rawBook.pages ?? 0) + " pages"
+            this.displayBooks()
+        })
+    
+        actions.appendChild(readStatus)
+        actions.appendChild(removeBook)
+    
+        title.textContent = rawBook.title
+        author.textContent = rawBook.author 
+        pages.textContent = (rawBook.pages ?? 0) + " pages"
+    
+        return book
+    }
 
-    return book
+
+    setupClickEvents() {
+        this.addBookBtn.addEventListener('click', () => {
+            this.dialog.showModal()
+        })
+
+        this.confirmBtn.addEventListener('click', (event) => {
+            event.preventDefault()
+
+            const {title, author, pages, readStatus} = this.getValues()
+
+            const newBook = new Book(title, author, pages, readStatus)
+
+            this.library.addBook(newBook)
+
+            this.displayBooks()
+
+            this.dialog.close()
+        })
+
+        this.closeBtn.addEventListener('click', () => {
+            this.dialog.close()
+        })
+    }
 }
 
-addBook(gundamBook)
-addBook(narutoBook)
-addBook(gtaBook)
-addBook(farCryBook)
-addBook(acBook)
+const controller = new UIController()
 
-showBooks()
-
+controller.setupClickEvents()
