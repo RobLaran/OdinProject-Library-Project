@@ -141,7 +141,7 @@ header > .heading {
 
 
 /* DIALOG */
-#add-book {
+#add-book-dialog {
     width: 450px;
     height: 450px;
 
@@ -183,7 +183,7 @@ header > .heading {
     color: #7c7a7a;
 }
 
-#add-book > form {
+#add-book-dialog > form {
     height: 100%;
 
     display: flex;
@@ -193,31 +193,31 @@ header > .heading {
 
 }
 
-#add-book > form > div {
+#add-book-dialog > form > div {
     flex: 1;
 
     display: flex;
     flex-direction: column;
 }
 
-#add-book > form > div > label {
+#add-book-dialog > form > div > label {
     font-size: 2.5rem;
     font-weight: 700;
 
 }
 
-#add-book > form > div > input:not(input[type="checkbox"]) {
+#add-book-dialog > form > div > input:not(input[type="checkbox"]) {
     flex: 1;
 
     line-height: 1.4rem;
     font-size: 1.1rem;
 }
 
-#add-book > form > div.read-status-checkbox {
+#add-book-dialog > form > div.read-status-checkbox {
     justify-content: center;
 }
 
-#add-book > form > div input[type="checkbox"] {
+#add-book-dialog > form > div input[type="checkbox"] {
     appearance: none;
 
     width: 30px;
@@ -232,7 +232,7 @@ header > .heading {
     overflow: hidden;
 }
 
-#add-book > form > div input[type="checkbox"]:before {
+#add-book-dialog > form > div input[type="checkbox"]:before {
     position: absolute;
     
     content: "✔"; 
@@ -248,11 +248,11 @@ header > .heading {
     transition: all 0.2s ease-in;
 }
 
-#add-book > form > div input[type="checkbox"]:checked:before {
+#add-book-dialog > form > div input[type="checkbox"]:checked:before {
     transform: scale(1);
 }
 
-#add-book > form > div.confirm-book-container {
+#add-book-dialog > form > div.confirm-book-container {
     align-items: center;
     justify-content: center;
 }

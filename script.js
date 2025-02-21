@@ -60,18 +60,20 @@ class UIController {
 
     displayBooks() {
         this.books = document.getElementsByClassName('book')
-        this.bookshelfDiv = document.getElementById("bookshelf")
+        const bookshelfDiv = document.getElementById("bookshelf")
 
-        for (let bookElem of this.books) {
-            this.bookshelfDiv.removeChild(bookElem)
-            console.log(bookElem)
+        let child = bookshelfDiv.lastElementChild
+
+        while (child) {
+            bookshelfDiv.removeChild(child);
+            child = bookshelfDiv.lastElementChild;
         }
 
         const books = this.library.getBooks()
 
         for(let index in books) {
             let book = this.buildBook(books[index]) 
-            this.bookshelfDiv.appendChild(book)
+            bookshelfDiv.appendChild(book)
         }
     }
     
